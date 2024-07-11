@@ -1,0 +1,25 @@
+responses:
+  "200":
+    description: A list of data
+    schema:
+      type: array
+      items:
+        type: object
+        properties:
+          _id:
+            type: string
+          name:
+            type: string
+          email:
+            type: string
+          age:
+            type: integer
+          city:
+            type: string
+  "500":
+    description: An error occurred
+    schema:
+      type: object
+      properties:
+        error:
+          type: string

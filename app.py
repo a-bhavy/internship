@@ -3,10 +3,14 @@ from pymongo import MongoClient
 from config.database import Config
 from models import db
 from routes.api import api 
+from flasgger import Swagger
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+
+    # initialize swagger
+    swagger = Swagger(app)
 
     # Initialize MongoDB connection
     client = MongoClient(app.config['MONGO_URI'])
