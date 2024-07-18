@@ -1,0 +1,60 @@
+swagger: "2.0"
+info:
+  description: "API for uploading and parsing resumes."
+  version: "1.0.0"
+  title: "Resume Upload API"
+host: "localhost:5000"
+basePath: "/api"
+schemes:
+  - "http"
+paths:
+  /upload:
+    post:
+      tags:
+        - "Upload"
+      summary: "Upload a resume file"
+      description: "Allows users to upload a resume file which will be parsed and returned as a JSON dictionary."
+      consumes:
+        - "multipart/form-data"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "formData"
+          name: "file"
+          type: "file"
+          required: true
+          description: "The resume file to upload. Allowed types are pdf, doc, docx."
+      responses:
+        200:
+          description: "Successfully parsed resume details."
+          schema:
+            $ref: "#/definitions/ParsedResume"
+        400:
+          description: "Invalid input or file not allowed."
+        500:
+          description: "Internal server error."
+definitions:
+  ParsedResume:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: "John Doe"
+      contact_info:
+        type: "string"
+        example: "john.doe@example.com"
+      education:
+        type: "array"
+        items:
+          type: "string"
+        example: ["B.Sc. in Computer Science, University of XYZ"]
+      experience:
+        type: "array"
+        items:
+          type: "string"
+        example: ["Software Developer at ABC Corp."]
+      skills:
+        type: "array"
+        items:
+          type: "string"
+        example: ["Python", "Flask", "MongoDB"]

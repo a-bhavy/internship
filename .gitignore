@@ -1,0 +1,7 @@
+.DS_Store
+NOTES.md
+output*.txt
+__pycache__
+sample_resume/
+uploads/
+archive/

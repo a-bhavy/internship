@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+    <style>
+        body {
+            background-color: #001f3f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #555;
+        }
+        input[type="file"] {
+            display: block;
+            margin: 0 auto 20px auto;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #loading {
+            display: none;
+            margin-top: 20px;
+            color: #007bff;
+        }
+        #output {
+            margin-top: 20px;
+            color: #333;
+            white-space: pre-wrap; /* Preserve whitespace for new lines */
+        }
+    </style>
+    <script>
+        function showLoading() {
+            document.body.style.cursor = 'wait';
+            document.getElementById('loading').style.display = 'block';
+        }
+        function hideLoading() {
+            document.body.style.cursor = 'default';
+            document.getElementById('loading').style.display = 'none';
+        }
+        function displayResult(result) {
+            const output = document.getElementById('output');
+            output.textContent = result;
+            hideLoading();
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload PDF or DOCX File</h1>
+        <form action="/upload" method="post" enctype="multipart/form-data" onsubmit="showLoading()">
+            <label for="file">Choose a file:</label>
+            <input type="file" id="file" name="file" accept=".pdf, .doc, .docx">
+            <br>
+            <button type="submit">Upload</button>
+        </form>
+        <div id="loading">Processing your resume...</div>
+        <div id="output"></div>
+    </div>
+</body>
+</html>
