@@ -38,7 +38,13 @@ def upload_file():
             "skills": parsed_resume['skills']
         }
 
-        return render_template("parsed_resume.html", **result)
+        # Check for 'response_type' query parameter to determine response format
+        response_type = request.headers.get('Accept')
+        # print(response_type)
+        if response_type and 'application/json' in response_type:
+            return jsonify(result)
+        else:
+            return render_template("parsed_resume.html", **result)
     else:
         flash('Allowed file types are pdf, doc, docx')
         return redirect(request.url)

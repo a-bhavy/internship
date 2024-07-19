@@ -13,7 +13,7 @@ app.secret_key = 'supersecretkey'
 swagger = Swagger(app)
 
 # Register blueprints
-app.register_blueprint(api, url_prefix='/api')  # Add URL prefix for clarity
+app.register_blueprint(api)  # Add URL prefix for clarity
 
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
