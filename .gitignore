@@ -1,2 +1,7 @@
+.DS_Store
+NOTES.md
+output*.txt
 __pycache__
-.gitattributes
+sample_resume/
+uploads/
+archive/

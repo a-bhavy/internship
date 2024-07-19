@@ -1,26 +1,21 @@
 from flask import Flask
-from pymongo import MongoClient
 from config.database import Config
-from models import db
-from routes.api import api 
 from flasgger import Swagger
+from routes.api import api  # Make sure the import matches the actual file and blueprint name
+from utils import UPLOAD_FOLDER
+import os
 
-def create_app():
-    app = Flask(__name__)
-    app.config.from_object(Config)
+app = Flask(__name__)
+app.config.from_object(Config)
+app.secret_key = 'supersecretkey'
 
-    # initialize swagger
-    swagger = Swagger(app)
+# Initialize Swagger
+swagger = Swagger(app)
 
-    # Initialize MongoDB connection
-    client = MongoClient(app.config['MONGO_URI'])
-    db.init_app(client)
-
-    # Register blueprints
-    app.register_blueprint(api)
-
-    return app
+# Register blueprints
+app.register_blueprint(api)  # Add URL prefix for clarity
 
 if __name__ == '__main__':
-    app=create_app()
+    if not os.path.exists(UPLOAD_FOLDER):
+        os.makedirs(UPLOAD_FOLDER)
     app.run(debug=True)

@@ -1,0 +1,40 @@
+parameters:
+  - name: file
+    in: formData
+    type: file
+    required: true
+    description: "PDF file to upload"
+responses:
+  "200":
+    description: "Successfully processed resume file."
+    schema:
+      $ref: "#/definitions/ParsedResume"
+  "400":
+    description: "Invalid input or file not allowed."
+  "500":
+    description: "Internal server error."
+definitions:
+  ParsedResume:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: "John Doe"
+      contact_info:
+        type: "string"
+        example: "john.doe@example.com"
+      education:
+        type: "array"
+        items:
+          type: "string"
+        example: ["B.Sc. in Computer Science, University of XYZ"]
+      experience:
+        type: "array"
+        items:
+          type: "string"
+        example: ["Software Developer at ABC Corp."]
+      skills:
+        type: "array"
+        items:
+          type: "string"
+        example: ["Python", "Flask", "MongoDB"]

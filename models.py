@@ -7,6 +7,6 @@ class MongoDB:
     def init_app(self, client):
         self.client = client
         self.db = self.client.get_database('internship')
-        self.collection = self.db['test']
+        self.collection = self.db['resumes']
 
 db = MongoDB()
