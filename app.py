@@ -6,8 +6,6 @@ from utils import UPLOAD_FOLDER
 import os
 
 app = Flask(__name__)
-app.config.from_object(Config)
-app.secret_key = 'supersecretkey'
 
 # Initialize Swagger
 swagger = Swagger(app)

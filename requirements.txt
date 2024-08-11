@@ -4,4 +4,6 @@ pymongo==4.8.0
 flasgger==0.9.7.1
 spacy
 pymupdf
-#python -m spacy download en_core_web_sm
+openai
+python-dotenv
+# python -m spacy download en_core_web_trf

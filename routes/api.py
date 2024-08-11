@@ -2,9 +2,11 @@ from flask import Blueprint, flash, redirect, jsonify, render_template, request
 from models import db
 from flasgger import swag_from
 from werkzeug.utils import secure_filename
-from resume_parser import parse_resume, save_to_file
-from utils import UPLOAD_FOLDER, allowed_file, save_to_mongodb
+# from resume_parser_spacy1 import parse_resume, save_to_file
+from resume_parser_openai import extract_text_openai
+from utils import UPLOAD_FOLDER, allowed_file, extract_text_from_pdf, save_raw_text_to_file, save_to_mongodb
 import os
+import json
 
 api = Blueprint('api', __name__)
 
@@ -26,25 +28,24 @@ def upload_file():
         filename = secure_filename(file.filename)
         file_path = os.path.join(UPLOAD_FOLDER, filename)
         file.save(file_path)
-        parsed_resume = parse_resume(file_path)
-        save_to_mongodb(parsed_resume)
-        save_to_file(parsed_resume, output_path="output3.txt")
+        resume_text = extract_text_from_pdf(file_path)
+        response  = extract_text_openai(resume_text)
+        extracted_details = response.choices[0].message.content
+        # Convert JSON string to dictionary
+        data = json.loads(extracted_details)
 
-        result = {
-            "name": parsed_resume['name'],
-            "contact_info": parsed_resume['contact_info'],
-            "education": parsed_resume['education'],
-            "experience": parsed_resume['experience'],
-            "skills": parsed_resume['skills']
-        }
+        save_raw_text_to_file(text=str(data), output_path=f"outputs/output_openai_{filename}.txt")
+
+        # save_to_mongodb(parsed_resume)
+        # save_to_file(parsed_resume, output_path="output3.txt")
 
         # Check for 'response_type' query parameter to determine response format
         response_type = request.headers.get('Accept')
         # print(response_type)
         if response_type and 'application/json' in response_type:
-            return jsonify(result)
+            return jsonify(data)
         else:
-            return render_template("parsed_resume.html", **result)
+            return render_template("parsed_resume.html", **data)
     else:
         flash('Allowed file types are pdf, doc, docx')
         return redirect(request.url)
